@@ -7,7 +7,10 @@
 # The second job will be submitted with a dependency to the first job
 # and will run after the crest job finishes (if it finishes) properly.
 
-# To run only the second job, include 
+# To run only the second job, include kmca after the xyz file, like
+# ./subcrest.sh myinput.xyz kmca
+# And have fun. To change kmca parameters, edit the kmca.py executable. To change crest parameters
+# edit the command line call in this file.
 
 export PATH=/work/scitas-share/ddossant/xtb/6.4.1/intel-19.0.5/bin:$PATH
 function is_bin_in_path {
@@ -100,11 +103,12 @@ then
    echo "#!/bin/bash
    #SBATCH -J kmca_${name}
    #SBATCH -o ${koutput}
+   #SBATCH -e ${koutput}
    #SBATCH --mem=8000
    #SBATCH --ntasks=1
    #SBATCH --cpus-per-task=8
    #SBATCH --time=3-00:00:00
-   python kmca.py ${curdir}/conformers_${name}/${name}_conformers.xyz >> ${koutput}
+   ./kmca.py ${curdir}/conformers_${name}/${name}_conformers.xyz >> ${koutput}
    " > kmca_${name}.job
    sbatch --dependency=afterok:${jid} kmca_${name}.job
 elif [ ${2} == "kmca" ]
@@ -113,11 +117,12 @@ then
    echo "#!/bin/bash
    #SBATCH -J kmca_${name}
    #SBATCH -o ${koutput}
+   #SBATCH -e ${koutput}
    #SBATCH --mem=8000
    #SBATCH --ntasks=1
    #SBATCH --cpus-per-task=8
    #SBATCH --time=3-00:00:00
-   python kmca.py ${curdir}/conformers_${name}/${name}_conformers.xyz >> ${koutput} 
+   ./kmca.py ${curdir}/conformers_${name}/${name}_conformers.xyz >> ${koutput} 
    " > kmca_${name}.job
    sbatch kmca_${name}.job
 fi

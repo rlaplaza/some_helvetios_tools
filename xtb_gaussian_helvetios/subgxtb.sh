@@ -7,7 +7,7 @@
 # with the same filename root.
 
 
-export PATH=/home/laplaza/Software/xtb-gaussian:/work/scitas-share/ddossant/xtb/6.4.1/intel-19.0.5/bin:$PATH
+export PATH=$(pwd):/work/scitas-share/ddossant/xtb/6.4.1/intel-19.0.5/bin:$PATH
 function is_bin_in_path {
      builtin type -P "$1" &> /dev/null
 }
