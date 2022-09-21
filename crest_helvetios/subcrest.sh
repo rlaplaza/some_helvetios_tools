@@ -42,7 +42,7 @@ soutput="${job_directory}/info_${name}/${name}.out"
 koutput="${job_directory}/info_${name}/${name}_kmca.out"
 loutput="${name}.out"
 natoms=$(head -n 1 ${1})
-tmpdir='$SCRATCH'
+tmpdir='$SCRATCH/$SLURM_JOB_ID'
 curdir='$SLURM_SUBMIT_DIR'
 checker='$?'
 
@@ -108,9 +108,9 @@ then
    #SBATCH --ntasks=1
    #SBATCH --cpus-per-task=8
    #SBATCH --time=3-00:00:00
-   ./kmca.py ${curdir}/conformers_${name}/${name}_conformers.xyz >> ${koutput}
+   ./kmca.py ${curdir}/conformers_${name}/${name}_conformers.xyz
    " > kmca_${name}.job
-   sbatch --dependency=afterok:${jid} kmca_${name}.job
+   sbatch --dependency=afterok:${jid} --output=${koutput} kmca_${name}.job
 elif [ ${2} == "kmca" ]
 then
    echo "Not doing crest. Executing kmca!"
@@ -122,9 +122,9 @@ then
    #SBATCH --ntasks=1
    #SBATCH --cpus-per-task=8
    #SBATCH --time=3-00:00:00
-   ./kmca.py ${curdir}/conformers_${name}/${name}_conformers.xyz >> ${koutput} 
+   ./kmca.py ${curdir}/conformers_${name}/${name}_conformers.xyz 
    " > kmca_${name}.job
-   sbatch kmca_${name}.job
+   sbatch --output=${koutput} kmca_${name}.job
 fi
 
 
