@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-import os
 import subprocess
 import sys
 from glob import glob
@@ -193,7 +190,7 @@ if __name__ == "__main__":
         m2 = compute_rele_m(filenames)
         m1 = np.abs(m1) / np.max(m1)
         m2 = np.abs(m2) / np.max(m2)
-        m = (m1 + m2) / 2
+        m = (np.sqrt(m1) + np.sqrt(m2)) / 2
         selected = do_kmeans(n_clusters, m, filenames)
         if save:
             destination = f"{dirname}_mix/"
