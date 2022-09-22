@@ -2,6 +2,7 @@ import subprocess
 import sys
 from glob import glob
 from io import StringIO
+import os
 
 import conda.cli
 import matplotlib
